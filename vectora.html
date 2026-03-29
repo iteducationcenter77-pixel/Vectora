@@ -1076,13 +1076,39 @@ function renderMarquee(){
 /*─── CONTACT ──────────────────────────────────*/
 function submitContact(e){
   e.preventDefault();
-  document.getElementById('cf-form').style.display='none';
-  document.getElementById('cf-success').style.display='block';
-  setTimeout(()=>{
-    document.getElementById('cf-success').style.display='none';
-    document.getElementById('cf-form').style.display='flex';
-    e.target.reset();
-  },5000);
+  (async()=>{
+    const form = e.target;
+    const data = {
+      name: form.querySelector('input[type=text]').value,
+      email: form.querySelector('input[type=email]').value,
+      phone: form.querySelector('input[type=tel]')? form.querySelector('input[type=tel]').value : '',
+      service: form.querySelector('select')? form.querySelector('select').value : '',
+      message: form.querySelector('textarea').value
+    };
+    // try server endpoint
+    try{
+      const r = await fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+      if(r.ok){
+        document.getElementById('cf-form').style.display='none';
+        document.getElementById('cf-success').style.display='block';
+        setTimeout(()=>{
+          document.getElementById('cf-success').style.display='none';
+          document.getElementById('cf-form').style.display='flex';
+          form.reset();
+        },5000);
+        return;
+      }
+    }catch(err){/* fallback to local */}
+
+    // fallback local behaviour
+    document.getElementById('cf-form').style.display='none';
+    document.getElementById('cf-success').style.display='block';
+    setTimeout(()=>{
+      document.getElementById('cf-success').style.display='none';
+      document.getElementById('cf-form').style.display='flex';
+      form.reset();
+    },5000);
+  })();
 }
 // Try contacting local backend
 async function pingServer(){
@@ -1386,13 +1412,30 @@ function closeModal(){document.getElementById('modal').classList.remove('open')}
 document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal()});
 
 /*─── INIT ─────────────────────────────────────*/
-renderPortfolio();
-renderMarquee();
-applySettings();
+async function initSite(){
+  // try to load persisted content from server (Supabase via serverless API)
+  try{
+    const r = await fetch('/api/content');
+    if(r.ok){
+      const json = await r.json();
+      // if content looks like our DB shape, use it
+      if(json && (json.works || json.clients || json.settings)){
+        DB = json;
+        saveStore(DB); // cache locally
+      }
+    }
+  }catch(e){/* ignore and use local DB */}
 
-// Update stat counters
-document.getElementById('stat-projects').textContent=DB.works.length*3+'+';
-document.getElementById('stat-clients').textContent=DB.clients.length*3+'+';
+  renderPortfolio();
+  renderMarquee();
+  applySettings();
+
+  // Update stat counters
+  document.getElementById('stat-projects').textContent=DB.works.length*3+'+';
+  document.getElementById('stat-clients').textContent=DB.clients.length*3+'+';
+}
+
+initSite();
 </script>
 </body>
 </html>

@@ -4,7 +4,9 @@
   "description": "Vectira Design Studio - local dev server for uploads and content API",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "node server.js",
+    "migrate": "node scripts/migrate_db.js"
   },
   "dependencies": {
     "body-parser": "^1.20.2",
@@ -12,11 +14,7 @@
     "express": "^4.18.2",
     "multer": "^1.4.4",
     "@supabase/supabase-js": "^2.27.0",
-    "dotenv": "^16.1.4"
-  }
-,
-  "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
+    "dotenv": "^16.1.4",
+    "pg": "^8.11.0"
   }
 }

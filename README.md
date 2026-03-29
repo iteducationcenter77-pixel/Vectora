@@ -84,3 +84,27 @@ git push -u origin main
 ```
 
 Note: I cannot push to your GitHub repository from here. After you run the `git push` command above from your machine, GitHub Pages or your chosen host will be able to serve the updated site. If you want me to prepare a branch or create a PR, grant access or provide repo credentials.
+
+SQL: Create database tables
+---------------------------------
+If you want the site to store contact messages, clients and works in your Supabase Postgres DB, run the SQL migration included in `migrations/create_tables.sql`.
+
+1. Get your Supabase database connection string:
+	- In the Supabase Dashboard go to Settings → Database → Connection Pooling/Connection string and copy the `DATABASE_URL` (the direct Postgres connection string).
+
+2. Create a `.env` file in the project root (do NOT commit it) with the following content:
+
+```
+DATABASE_URL="postgresql://user:password@db.host:5432/postgres"
+```
+
+3. Run the migration script (requires Node and `npm install` to have been run):
+
+```powershell
+npm install
+npm run migrate
+```
+
+The migration will create three tables: `clients`, `works`, and `contacts` and add indexes on `created_at` for common queries.
+
+You can inspect the SQL in [migrations/create_tables.sql](migrations/create_tables.sql).
