@@ -33,6 +33,19 @@ Deploying to Vercel
 Local development
 - If you prefer to run a local server with filesystem persistence, you can still run `server.js` locally. That server persists files to `assets/uploads` and `content.json` in the repo. When deploying to Vercel, the serverless APIs and Supabase should be used instead.
 
+Environment variables (local)
+1. Copy `.env.example` to `.env` in the project root.
+2. Fill the `SUPABASE_*` values (or leave blank for local-only testing).
+3. Install dependencies and run locally:
+
+```powershell
+npm install
+npm run dev
+```
+
+Notes
+- The repo now uses `dotenv` for local development so `.env` is loaded when running `server.js` locally. Do NOT commit your `.env` or service role key — keep those secret. Use Vercel Project Settings to add production environment variables.
+
 
 Run locally
 1. Install dependencies:
