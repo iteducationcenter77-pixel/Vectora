@@ -45,6 +45,9 @@ npm run dev
 
 Notes
 - The repo now uses `dotenv` for local development so `.env` is loaded when running `server.js` locally. Do NOT commit your `.env` or service role key — keep those secret. Use Vercel Project Settings to add production environment variables.
+ 
+Security note — rotate exposed keys
+If you previously committed real Supabase keys into the repository (for example inside `.env.example`), those values may be present in the commit history. Service role keys are powerful — you should rotate/replace them immediately in the Supabase Dashboard and update the Vercel environment variables. If you want, I can help remove secrets from the repo history using the BFG or git filter-repo and then create replacement keys.
 
 
 Run locally
