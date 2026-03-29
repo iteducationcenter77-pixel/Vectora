@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Vectora Design Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/*─────────────────────────────────────────────
+  RESET & BASE
+─────────────────────────────────────────────*/
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07070c;
+  --surface:#0f0f18;
+  --card:#13131e;
+  --border:rgba(255,210,100,0.12);
+  --gold:#f0c040;
+  --gold2:#ffdc70;
+  --white:#f8f4ee;
+  --muted:rgba(248,244,238,0.45);
+  --dim:rgba(248,244,238,0.18);
+  --ff-h:'Playfair Display',Georgia,serif;
+  --ff-b:'Outfit',sans-serif;
+  --r:6px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--ff-b);background:var(--bg);color:var(--white);overflow-x:hidden;line-height:1.6}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--ff-b);cursor:pointer;border:none;outline:none}
+input,textarea,select{font-family:var(--ff-b);outline:none}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+
+/*─────────────────────────────────────────────
+  GRAIN OVERLAY
+─────────────────────────────────────────────*/
+body::after{
+  content:'';pointer-events:none;position:fixed;inset:0;z-index:9999;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity:0.025;
+}
+
+/*─────────────────────────────────────────────
+  NAV
+─────────────────────────────────────────────*/
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:800;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 6%;
+  background:rgba(7,7,12,0.82);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
+  transition:all .3s;
+}
+.nav-logo{
+  font-family:var(--ff-h);font-size:1.55rem;font-weight:700;letter-spacing:.02em;
+}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:32px;align-items:center}
+.nav-links a{
+  font-size:.78rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);transition:color .2s;
+}
+.nav-links a:hover{color:var(--gold)}
+.nav-cta{
+  background:var(--gold);color:#07070c !important;
+  padding:9px 22px;border-radius:var(--r);
+  font-weight:600 !important;transition:all .2s !important;
+}
+.nav-cta:hover{background:var(--gold2) !important;transform:translateY(-1px)}
+.nav-hamburger{
+  display:none;background:none;border:none;color:var(--white);
+  padding:4px;cursor:pointer;
+}
+.nav-hamburger svg{display:block}
+
+/* Mobile nav drawer */
+#nav-drawer{
+  display:none;position:fixed;top:0;left:0;right:0;bottom:0;
+  background:var(--bg);z-index:799;
+  flex-direction:column;align-items:center;justify-content:center;gap:36px;
+}
+#nav-drawer.open{display:flex}
+#nav-drawer a{
+  font-family:var(--ff-h);font-size:2rem;font-style:italic;color:var(--white);
+  transition:color .2s;
+}
+#nav-drawer a:hover{color:var(--gold)}
+#nav-drawer .close-btn{
+  position:absolute;top:22px;right:6%;background:none;border:none;
+  color:var(--white);font-size:1.6rem;cursor:pointer;
+}
+
+/*─────────────────────────────────────────────
+  SECTIONS SHARED
+─────────────────────────────────────────────*/
+section{padding:110px 6%}
+.s-eye{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);
+  margin-bottom:14px;
+}
+.s-eye::before{content:'';width:28px;height:1px;background:var(--gold)}
+.s-title{
+  font-family:var(--ff-h);font-size:clamp(2rem,4.5vw,3.8rem);
+  font-weight:700;line-height:1.1;margin-bottom:16px;
+}
+.s-title em{font-style:italic;color:var(--gold)}
+.s-desc{color:var(--muted);max-width:540px;font-size:.95rem;line-height:1.8}
+.s-header{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:28px;margin-bottom:60px}
+
+/*─────────────────────────────────────────────
+  HERO
+─────────────────────────────────────────────*/
+#hero{
+  min-height:100vh;display:flex;flex-direction:column;
+  justify-content:center;padding:140px 6% 90px;
+  position:relative;overflow:hidden;
+}
+.hero-glow{
+  position:absolute;top:-10%;left:40%;width:70vw;height:70vw;
+  background:radial-gradient(circle,rgba(240,192,64,.1) 0%,transparent 65%);
+  pointer-events:none;
+}
+.hero-grid-bg{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(240,192,64,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(240,192,64,.04) 1px,transparent 1px);
+  background-size:52px 52px;
+  mask-image:radial-gradient(ellipse 80% 80% at 60% 40%,black,transparent);
+}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(240,192,64,.1);border:1px solid rgba(240,192,64,.25);
+  color:var(--gold);font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;
+  padding:6px 16px;border-radius:100px;width:fit-content;margin-bottom:28px;
+}
+.hero-tag::before{content:'●';font-size:.4rem;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+h1.hero-h{
+  font-family:var(--ff-h);
+  font-size:clamp(3rem,7.5vw,7rem);
+  font-weight:900;line-height:1.0;
+  letter-spacing:-.02em;
+  max-width:860px;margin-bottom:28px;
+}
+h1.hero-h em{font-style:italic;color:var(--gold)}
+.hero-sub{
+  font-size:clamp(.95rem,1.5vw,1.1rem);color:var(--muted);
+  max-width:500px;line-height:1.8;margin-bottom:44px;
+}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+.btn-gold{
+  background:var(--gold);color:#07070c;
+  padding:14px 30px;border-radius:var(--r);
+  font-size:.82rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:all .25s;
+}
+.btn-gold:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 12px 32px rgba(240,192,64,.25)}
+.btn-ghost{
+  background:transparent;color:var(--white);
+  padding:14px 30px;border-radius:var(--r);border:1px solid var(--dim);
+  font-size:.82rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;
+  transition:all .25s;
+}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.hero-stats{
+  display:flex;gap:48px;margin-top:72px;padding-top:36px;
+  border-top:1px solid var(--border);flex-wrap:wrap;
+}
+.h-stat-n{font-family:var(--ff-h);font-size:2.6rem;font-weight:700;color:var(--gold);line-height:1}
+.h-stat-l{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:4px}
+
+/* Scroll indicator */
+.scroll-ind{
+  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+}
+.scroll-ind span{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.scroll-mouse{
+  width:22px;height:34px;border:1px solid var(--dim);border-radius:12px;
+  display:flex;justify-content:center;padding-top:6px;
+}
+.scroll-dot{
+  width:3px;height:6px;background:var(--gold);border-radius:2px;
+  animation:scrollDot 1.8s ease-in-out infinite;
+}
+@keyframes scrollDot{0%{transform:translateY(0);opacity:1}100%{transform:translateY(10px);opacity:0}}
+
+/*─────────────────────────────────────────────
+  SERVICES
+─────────────────────────────────────────────*/
+#services{background:var(--surface)}
+.svc-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
+  gap:1px;
+  background:var(--border);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  overflow:hidden;
+}
+.svc-card{
+  background:var(--surface);
+  padding:40px 32px;
+  position:relative;overflow:hidden;
+  transition:background .3s;
+}
+.svc-card:hover{background:rgba(240,192,64,.04)}
+.svc-card::after{
+  content:'';position:absolute;inset-inline:0;bottom:0;height:2px;
+  background:var(--gold);transform:scaleX(0);transform-origin:left;
+  transition:transform .35s ease;
+}
+.svc-card:hover::after{transform:scaleX(1)}
+.svc-n{
+  font-family:var(--ff-h);font-size:3rem;font-weight:900;
+  color:rgba(240,192,64,.1);line-height:1;margin-bottom:18px;
+  transition:color .3s;
+}
+.svc-card:hover .svc-n{color:rgba(240,192,64,.25)}
+.svc-icon{
+  width:44px;height:44px;margin-bottom:16px;
+  background:rgba(240,192,64,.08);border:1px solid var(--border);border-radius:var(--r);
+  display:flex;align-items:center;justify-content:center;color:var(--gold);
+}
+.svc-title{font-size:1rem;font-weight:600;margin-bottom:10px}
+.svc-desc{font-size:.86rem;color:var(--muted);line-height:1.75}
+
+/*─────────────────────────────────────────────
+  PORTFOLIO
+─────────────────────────────────────────────*/
+#portfolio{}
+.pf-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:40px}
+.pf-btn{
+  background:transparent;
+  border:1px solid var(--dim);
+  color:var(--muted);
+  padding:7px 18px;border-radius:100px;
+  font-size:.76rem;letter-spacing:.05em;font-weight:500;
+  transition:all .2s;
+}
+.pf-btn.active,.pf-btn:hover{border-color:var(--gold);color:var(--gold)}
+.pf-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:20px;
+}
+.pf-card{
+  position:relative;border-radius:var(--r);overflow:hidden;
+  aspect-ratio:4/3;cursor:pointer;
+}
+.pf-card img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .5s ease;
+}
+.pf-card:hover img{transform:scale(1.07)}
+.pf-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(7,7,12,.92) 0%,rgba(7,7,12,.45) 50%,transparent 100%);
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:24px;
+  opacity:0;transition:opacity .3s;
+}
+.pf-card:hover .pf-overlay{opacity:1}
+.pf-cat{font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.pf-name{font-size:1.05rem;font-weight:600;color:var(--white)}
+.pf-client{font-size:.8rem;color:var(--muted);margin-top:3px}
+.pf-empty{
+  grid-column:1/-1;text-align:center;
+  padding:60px 0;color:var(--dim);font-size:.95rem;
+}
+
+/* Lightbox */
+#lightbox{
+  display:none;position:fixed;inset:0;z-index:900;
+  background:rgba(0,0,0,.88);backdrop-filter:blur(12px);
+  align-items:center;justify-content:center;padding:24px;
+}
+#lightbox.open{display:flex}
+#lightbox img{
+  max-width:860px;width:100%;max-height:80vh;
+  object-fit:contain;border-radius:var(--r);
+}
+#lightbox-close{
+  position:absolute;top:24px;right:28px;
+  background:rgba(255,255,255,.1);border:1px solid var(--dim);
+  color:var(--white);width:44px;height:44px;border-radius:50%;
+  font-size:1.4rem;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .2s;
+}
+#lightbox-close:hover{background:rgba(240,192,64,.2);border-color:var(--gold);color:var(--gold)}
+#lightbox-info{
+  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+  text-align:center;
+}
+#lightbox-info .lb-title{font-family:var(--ff-h);font-size:1.3rem;font-style:italic;margin-bottom:4px}
+#lightbox-info .lb-cat{font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold)}
+
+/*─────────────────────────────────────────────
+  CLIENTS MARQUEE
+─────────────────────────────────────────────*/
+#clients{
+  padding:60px 0;background:var(--surface);
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  overflow:hidden;
+}
+.clients-label{
+  text-align:center;
+  font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--dim);margin-bottom:32px;
+}
+.marquee-wrap{overflow:hidden;position:relative}
+.marquee-wrap::before,.marquee-wrap::after{
+  content:'';position:absolute;top:0;bottom:0;width:120px;z-index:2;pointer-events:none;
+}
+.marquee-wrap::before{left:0;background:linear-gradient(90deg,var(--surface),transparent)}
+.marquee-wrap::after{right:0;background:linear-gradient(-90deg,var(--surface),transparent)}
+.marquee-track{
+  display:flex;gap:0;
+  animation:marquee 22s linear infinite;
+  width:max-content;
+}
+.marquee-track:hover{animation-play-state:paused}
+.m-chip{
+  padding:18px 44px;border-right:1px solid var(--border);
+  font-size:.88rem;font-weight:500;letter-spacing:.05em;
+  color:var(--muted);white-space:nowrap;transition:color .2s;
+}
+.m-chip:hover{color:var(--gold)}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/*─────────────────────────────────────────────
+  CONTACT
+─────────────────────────────────────────────*/
+#contact{background:var(--surface)}
+.contact-wrap{
+  display:grid;grid-template-columns:1fr 1.2fr;gap:80px;align-items:start;
+}
+.contact-info{}
+.contact-tagline{
+  font-family:var(--ff-h);font-size:clamp(1.3rem,2.5vw,2rem);
+  font-weight:700;font-style:italic;line-height:1.3;
+  color:var(--gold);margin-bottom:32px;
+}
+.ci-item{
+  display:flex;align-items:flex-start;gap:16px;margin-bottom:28px;
+}
+.ci-ico{
+  width:46px;height:46px;flex-shrink:0;
+  background:rgba(240,192,64,.07);border:1px solid var(--border);
+  border-radius:var(--r);display:flex;align-items:center;justify-content:center;
+  color:var(--gold);
+}
+.ci-lbl{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:3px}
+.ci-val{font-size:.93rem;font-weight:500}
+.ci-val a{color:var(--white);transition:color .2s}
+.ci-val a:hover{color:var(--gold)}
+
+/* Hours box */
+.hours-box{
+  background:rgba(240,192,64,.05);border:1px solid var(--border);
+  border-radius:var(--r);padding:22px 24px;margin-top:36px;
+}
+.hours-box h4{font-family:var(--ff-h);font-size:1.05rem;font-style:italic;margin-bottom:10px}
+.hours-box p{font-size:.84rem;color:var(--muted);line-height:1.9}
+
+/* Form */
+.cf-form{display:flex;flex-direction:column;gap:16px}
+.cf-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cf-field{display:flex;flex-direction:column;gap:7px}
+.cf-lbl{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.cf-input{
+  background:rgba(255,255,255,.04);border:1px solid var(--dim);
+  border-radius:var(--r);color:var(--white);
+  padding:13px 16px;font-size:.9rem;transition:border-color .2s;
+}
+.cf-input:focus{border-color:var(--gold)}
+.cf-input::placeholder{color:var(--dim)}
+textarea.cf-input{resize:vertical;min-height:120px}
+select.cf-input option{background:var(--card)}
+.cf-submit{
+  background:var(--gold);color:#07070c;
+  padding:15px 28px;border-radius:var(--r);
+  font-size:.82rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:all .25s;align-self:flex-start;
+}
+.cf-submit:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 10px 28px rgba(240,192,64,.22)}
+.cf-success{
+  text-align:center;padding:48px 24px;
+  font-family:var(--ff-h);font-size:1.6rem;font-style:italic;color:var(--gold);
+}
+.cf-success p{font-family:var(--ff-b);font-size:.88rem;color:var(--muted);margin-top:10px;font-style:normal}
+
+/*─────────────────────────────────────────────
+  FOOTER
+─────────────────────────────────────────────*/
+#footer{
+  padding:44px 6%;
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:20px;
+}
+.ft-logo{font-family:var(--ff-h);font-size:1.35rem;font-weight:700}
+.ft-logo span{color:var(--gold)}
+.ft-copy{font-size:.76rem;color:var(--dim)}
+.ft-right{display:flex;align-items:center;gap:16px}
+.ft-social{
+  width:36px;height:36px;border:1px solid var(--border);border-radius:var(--r);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--muted);transition:all .2s;
+}
+.ft-social:hover{border-color:var(--gold);color:var(--gold)}
+.ft-admin-btn{
+  background:rgba(255,255,255,.04);border:1px solid var(--dim);
+  color:var(--muted);padding:7px 16px;border-radius:var(--r);
+  font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
+  display:flex;align-items:center;gap:6px;transition:all .2s;
+}
+.ft-admin-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+/*─────────────────────────────────────────────
+  ADMIN LOGIN
+─────────────────────────────────────────────*/
+#admin-login{
+  display:none;position:fixed;inset:0;z-index:1000;
+  background:var(--bg);
+  align-items:center;justify-content:center;
+}
+#admin-login.open{display:flex}
+.al-box{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:48px 40px;
+  max-width:400px;width:100%;
+}
+.al-logo{
+  text-align:center;font-family:var(--ff-h);font-size:2rem;font-weight:700;
+  margin-bottom:6px;
+}
+.al-logo span{color:var(--gold)}
+.al-sub{
+  text-align:center;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--dim);margin-bottom:36px;
+}
+.al-fields{display:flex;flex-direction:column;gap:14px;margin-bottom:6px}
+.al-btn{
+  width:100%;background:var(--gold);color:#07070c;
+  padding:14px;border-radius:var(--r);
+  font-size:.85rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  margin-top:8px;display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:all .2s;
+}
+.al-btn:hover{background:var(--gold2)}
+.al-err{color:#ff6868;font-size:.8rem;text-align:center;min-height:18px;margin-top:4px}
+.al-back{
+  display:block;text-align:center;margin-top:20px;
+  font-size:.78rem;color:var(--dim);cursor:pointer;transition:color .2s;
+}
+.al-back:hover{color:var(--gold)}
+
+/*─────────────────────────────────────────────
+  ADMIN PANEL
+─────────────────────────────────────────────*/
+#admin-panel{
+  display:none;position:fixed;inset:0;z-index:1000;
+  background:var(--bg);flex-direction:row;
+}
+#admin-panel.open{display:flex}
+.ap-sidebar{
+  width:230px;flex-shrink:0;
+  background:var(--card);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;padding:0;
+}
+.ap-logo{
+  padding:24px 22px 20px;border-bottom:1px solid var(--border);
+  font-family:var(--ff-h);font-size:1.25rem;font-weight:700;
+}
+.ap-logo span{color:var(--gold)}
+.ap-logo small{
+  display:block;font-family:var(--ff-b);font-size:.62rem;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-top:2px;
+}
+.ap-nav{padding:16px 10px;flex:1}
+.ap-item{
+  display:flex;align-items:center;gap:10px;padding:11px 12px;
+  border-radius:var(--r);cursor:pointer;
+  font-size:.84rem;font-weight:500;color:var(--muted);
+  transition:all .2s;margin-bottom:3px;
+}
+.ap-item:hover,.ap-item.active{background:rgba(240,192,64,.1);color:var(--gold)}
+.ap-logout{
+  padding:18px 22px;border-top:1px solid var(--border);
+  display:flex;align-items:center;gap:9px;cursor:pointer;
+  font-size:.8rem;color:var(--dim);transition:color .2s;
+}
+.ap-logout:hover{color:#ff6868}
+.ap-main{flex:1;overflow-y:auto;padding:36px 40px}
+
+/* Admin shared */
+.ap-head{margin-bottom:32px}
+.ap-h1{font-family:var(--ff-h);font-size:1.9rem;font-weight:700;line-height:1.2}
+.ap-h1 em{font-style:italic;color:var(--gold)}
+.ap-sub{color:var(--dim);font-size:.84rem;margin-top:5px}
+
+/* Stat row */
+.ap-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:32px}
+.ap-stat{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r);padding:20px;
+}
+.ap-stat-n{font-family:var(--ff-h);font-size:2.2rem;font-weight:700;color:var(--gold)}
+.ap-stat-l{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-top:3px}
+
+/* Table card */
+.ap-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r);overflow:hidden;margin-bottom:22px;
+}
+.ap-card-head{
+  padding:18px 22px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.ap-card-title{font-weight:600;font-size:.88rem}
+.btn-xs{
+  background:var(--gold);color:#07070c;
+  padding:7px 15px;border-radius:var(--r);
+  font-size:.74rem;font-weight:600;letter-spacing:.05em;
+  display:inline-flex;align-items:center;gap:5px;transition:all .2s;
+}
+.btn-xs:hover{background:var(--gold2)}
+.btn-del{
+  background:rgba(255,80,80,.1);color:#ff6868;
+  border:1px solid rgba(255,80,80,.25);
+  padding:6px 12px;border-radius:var(--r);font-size:.74rem;
+  display:inline-flex;align-items:center;gap:4px;transition:all .2s;
+}
+.btn-del:hover{background:rgba(255,80,80,.2)}
+table{width:100%;border-collapse:collapse}
+th{
+  padding:11px 22px;text-align:left;
+  font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--dim);border-bottom:1px solid var(--border);
+  white-space:nowrap;
+}
+td{
+  padding:13px 22px;font-size:.85rem;
+  border-bottom:1px solid rgba(255,255,255,.04);
+  color:rgba(248,244,238,.8);
+}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.02)}
+.badge{
+  padding:3px 10px;border-radius:100px;
+  font-size:.66rem;font-weight:500;letter-spacing:.05em;
+}
+.bg{background:rgba(240,192,64,.12);color:var(--gold)}
+.bm{background:rgba(255,255,255,.07);color:var(--dim)}
+
+/* Gallery grid in admin */
+.ag-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+  gap:12px;padding:20px 22px;
+}
+.ag-thumb{
+  position:relative;aspect-ratio:4/3;border-radius:var(--r);overflow:hidden;
+}
+.ag-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.ag-ov{
+  position:absolute;inset:0;background:rgba(0,0,0,.65);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;opacity:0;transition:opacity .2s;
+}
+.ag-thumb:hover .ag-ov{opacity:1}
+.ag-ov span{font-size:.72rem;color:var(--white);text-align:center;padding:0 8px}
+
+/* Settings form */
+.ap-form{padding:24px 22px;display:flex;flex-direction:column;gap:14px}
+.save-row{display:flex;align-items:center;gap:14px;margin-top:6px}
+.save-ok{font-size:.82rem;color:var(--gold);display:none}
+.save-ok.show{display:block}
+
+/* Modal */
+.modal-bg{
+  display:none;position:fixed;inset:0;z-index:1100;
+  background:rgba(0,0,0,.72);backdrop-filter:blur(8px);
+  align-items:center;justify-content:center;padding:20px;
+}
+.modal-bg.open{display:flex}
+.modal-box{
+  background:#111119;border:1px solid var(--border);
+  border-radius:12px;padding:36px;max-width:500px;width:100%;
+}
+.modal-h{font-family:var(--ff-h);font-size:1.55rem;font-weight:700;margin-bottom:22px}
+.modal-h em{font-style:italic;color:var(--gold)}
+.modal-fields{display:flex;flex-direction:column;gap:13px;margin-bottom:22px}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end}
+.btn-cancel{
+  background:transparent;color:var(--muted);
+  border:1px solid var(--dim);padding:10px 20px;border-radius:var(--r);
+  font-size:.8rem;transition:all .2s;
+}
+.btn-cancel:hover{border-color:var(--muted);color:var(--white)}
+
+/*─────────────────────────────────────────────
+  SCROLL REVEAL
+─────────────────────────────────────────────*/
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease}
+.reveal.visible{opacity:1;transform:none}
+
+/*─────────────────────────────────────────────
+  RESPONSIVE
+─────────────────────────────────────────────*/
+@media(max-width:900px){
+  .nav-links{display:none}
+  .nav-hamburger{display:block}
+  .contact-wrap{grid-template-columns:1fr;gap:48px}
+  .cf-row{grid-template-columns:1fr}
+  .ap-sidebar{display:none}
+  .ap-stats{grid-template-columns:1fr 1fr}
+  .ap-main{padding:24px}
+  .s-header{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:600px){
+  section{padding:72px 5%}
+  h1.hero-h{font-size:2.8rem}
+  .hero-stats{gap:28px}
+  .pf-grid{grid-template-columns:1fr}
+  .ap-stats{grid-template-columns:1fr 1fr}
+  #footer{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<!--═══════════════════════════════════════════
+  NAV
+═══════════════════════════════════════════-->
+<nav id="nav">
+  <div class="nav-logo">Vectira<span>.</span></div>
+  <div class="nav-links">
+    <a href="#services">Services</a>
+    <a href="#portfolio">Portfolio</a>
+    <a href="#clients">Clients</a>
+    <a href="#contact">Contact</a>
+    <a href="#contact" class="nav-cta">Get a Quote</a>
+  </div>
+  <button class="nav-hamburger" onclick="openDrawer()" aria-label="Menu">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+</nav>
+
+<!-- Mobile Drawer -->
+<div id="nav-drawer">
+  <button class="close-btn" onclick="closeDrawer()">✕</button>
+  <a href="#services" onclick="closeDrawer()">Services</a>
+  <a href="#portfolio" onclick="closeDrawer()">Portfolio</a>
+  <a href="#clients" onclick="closeDrawer()">Clients</a>
+  <a href="#contact" onclick="closeDrawer()">Contact</a>
+  <a href="#contact" onclick="closeDrawer()" style="color:var(--gold)">Get a Quote →</a>
+</div>
+
+<!--═══════════════════════════════════════════
+  HERO
+═══════════════════════════════════════════-->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-grid-bg"></div>
+  <div class="hero-tag">● Creative Agency · India</div>
+  <h1 class="hero-h">Design that <em>Moves</em><br/>Brands Forward</h1>
+  <p class="hero-sub" id="hero-sub">We craft bold brands, stunning websites, and scroll-stopping content for businesses that mean business.</p>
+  <div class="hero-btns">
+    <button class="btn-gold" onclick="scrollTo('portfolio')">
+      View Our Work
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </button>
+    <a id="hero-whatsapp" class="btn-gold" target="_blank" style="background:#25D366;color:#fff;padding:14px 20px;border-radius:8px;display:inline-flex;align-items:center;gap:8px">
+      Chat on WhatsApp
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 11-7.6-12 8.38 8.38 0 013.8.9L21 3z"></path><path d="M22 2l-6 6"/></svg>
+    </a>
+    <button class="btn-ghost" onclick="scrollTo('contact')">Start a Project</button>
+  </div>
+  <div class="hero-stats">
+    <div><div class="h-stat-n" id="stat-projects">50+</div><div class="h-stat-l">Projects Delivered</div></div>
+    <div><div class="h-stat-n" id="stat-clients">20+</div><div class="h-stat-l">Happy Clients</div></div>
+    <div><div class="h-stat-n">4+</div><div class="h-stat-l">Years of Excellence</div></div>
+    <div><div class="h-stat-n">100%</div><div class="h-stat-l">Client Satisfaction</div></div>
+  </div>
+  <div class="scroll-ind">
+    <span>Scroll</span>
+    <div class="scroll-mouse"><div class="scroll-dot"></div></div>
+  </div>
+</section>
+
+<!--═══════════════════════════════════════════
+  SERVICES
+═══════════════════════════════════════════-->
+<section id="services">
+  <div class="s-header reveal">
+    <div>
+      <div class="s-eye">What We Do</div>
+      <h2 class="s-title">Services that <em>Scale</em> Your Brand</h2>
+      <p class="s-desc">From concept to completion — we handle every aspect of your brand's visual and digital presence.</p>
+    </div>
+  </div>
+  <div class="svc-grid reveal">
+    <div class="svc-card">
+      <div class="svc-n">01</div>
+      <div class="svc-title">Social Media Management</div>
+      <div class="svc-desc">Strategic content planning, daily posting, and community management across all major platforms to grow your audience consistently.</div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-n">02</div>
+      <div class="svc-title">Graphic Design & Posts</div>
+      <div class="svc-desc">Scroll-stopping visuals, story templates, reel covers, and branded post designs that turn followers into customers.</div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-n">03</div>
+      <div class="svc-title">Video Editing</div>
+      <div class="svc-desc">Professional editing for reels, ads, promotional videos, and branded content. Motion graphics and transitions that impress.</div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-n">04</div>
+      <div class="svc-title">Brand Identity</div>
+      <div class="svc-desc">Complete brand packages — logo, color palette, typography, brand guidelines, business cards, and all brand assets.</div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-n">05</div>
+      <div class="svc-title">Website Design & Development</div>
+      <div class="svc-desc">Modern, responsive websites designed to impress and developed to perform. SEO-ready and optimised for conversions.</div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-n">06</div>
+      <div class="svc-title">Prospectus & Print Design</div>
+      <div class="svc-desc">Brochures, catalogs, investor decks, presentations, and all print or digital collateral crafted professionally.</div>
+    </div>
+  </div>
+</section>
+
+<!--═══════════════════════════════════════════
+  PORTFOLIO
+═══════════════════════════════════════════-->
+<section id="portfolio">
+  <div class="s-header reveal">
+    <div>
+      <div class="s-eye">Our Work</div>
+      <h2 class="s-title">Crafted with <em>Purpose</em></h2>
+      <p class="s-desc">A curated selection of projects that demonstrate our range, quality, and commitment to excellence.</p>
+    </div>
+  </div>
+  <div class="pf-filters reveal" id="pf-filters">
+    <button class="pf-btn active" data-cat="All">All</button>
+  </div>
+  <div class="pf-grid" id="pf-grid">
+    <!-- Populated by JS -->
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt=""/>
+  <div id="lightbox-info">
+    <div class="lb-title" id="lb-title"></div>
+    <div class="lb-cat" id="lb-cat"></div>
+  </div>
+</div>
+
+<!--═══════════════════════════════════════════
+  CLIENTS MARQUEE
+═══════════════════════════════════════════-->
+<div id="clients">
+  <div class="clients-label">Trusted By Growing Brands</div>
+  <div class="marquee-wrap">
+    <div class="marquee-track" id="marquee-track">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+</div>
+
+<!--═══════════════════════════════════════════
+  CONTACT
+═══════════════════════════════════════════-->
+<section id="contact">
+  <div class="s-header reveal">
+    <div>
+      <div class="s-eye">Get In Touch</div>
+      <h2 class="s-title">Let's Build Something <em>Great</em></h2>
+      <p class="s-desc">Ready to elevate your brand? Reach out and let's turn your vision into reality.</p>
+    </div>
+  </div>
+  <div class="contact-wrap">
+    <div class="contact-info reveal">
+      <div class="contact-tagline">"Every great brand<br/>begins with a conversation."</div>
+      <div class="ci-item">
+        <div class="ci-ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
+        <div>
+          <div class="ci-lbl">Phone / WhatsApp</div>
+          <div class="ci-val"><a href="tel:+918638373298" id="contact-phone">+91 8638373298</a> &nbsp; <a href="#" id="contact-whatsapp" target="_blank" style="color:var(--gold);font-weight:600;margin-left:8px">WhatsApp</a></div>
+        </div>
+      </div>
+      <div class="ci-item">
+        <div class="ci-ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div>
+          <div class="ci-lbl">Email</div>
+          <div class="ci-val"><a href="mailto:vectora.help@gmail.com" id="contact-email">vectora.help@gmail.com</a></div>
+        </div>
+      </div>
+      <div class="ci-item">
+        <div class="ci-ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </div>
+        <div>
+          <div class="ci-lbl">Instagram</div>
+          <div class="ci-val"><a href="https://instagram.com" target="_blank">@vectoradesignstudio</a></div>
+        </div>
+      </div>
+      <div class="hours-box">
+        <h4>Working Hours</h4>
+        <p>Monday – Friday: 9:00 AM – 7:00 PM<br/>Saturday: 10:00 AM – 4:00 PM<br/>Sunday: Closed</p>
+      </div>
+    </div>
+    <div class="reveal">
+      <div id="cf-success" class="cf-success" style="display:none">
+        ✦ Message Sent!
+        <p>Thank you for reaching out. We'll get back to you within 24 hours.</p>
+      </div>
+      <form class="cf-form" id="cf-form" onsubmit="submitContact(event)">
+        <div class="cf-row">
+          <div class="cf-field">
+            <label class="cf-lbl">Your Name *</label>
+            <input class="cf-input" type="text" placeholder="Rahul Sharma" required/>
+          </div>
+          <div class="cf-field">
+            <label class="cf-lbl">Email Address *</label>
+            <input class="cf-input" type="email" placeholder="rahul@company.com" required/>
+          </div>
+        </div>
+        <div class="cf-field">
+          <label class="cf-lbl">Phone Number</label>
+          <input class="cf-input" type="tel" placeholder="+91 98765 43210"/>
+        </div>
+        <div class="cf-field">
+          <label class="cf-lbl">Service Interested In</label>
+          <select class="cf-input">
+            <option value="">Select a service...</option>
+            <option>Social Media Management</option>
+            <option>Graphic Design & Posts</option>
+            <option>Video Editing</option>
+            <option>Brand Identity</option>
+            <option>Website Design & Development</option>
+            <option>Prospectus & Print Design</option>
+            <option>Multiple Services</option>
+          </select>
+        </div>
+        <div class="cf-field">
+          <label class="cf-lbl">Your Message *</label>
+          <textarea class="cf-input" placeholder="Tell us about your project, goals, and timeline..." required></textarea>
+        </div>
+        <button type="submit" class="cf-submit">
+          Send Message
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!--═══════════════════════════════════════════
+  FOOTER
+═══════════════════════════════════════════-->
+<footer id="footer">
+  <div class="ft-logo">Vectira<span>.</span> Design Studio</div>
+  <div class="ft-copy">© 2025 Vectira Design Studio · All rights reserved</div>
+  <div class="ft-right">
+    <a href="https://instagram.com" target="_blank" class="ft-social" title="Instagram">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+    </a>
+    <a href="mailto:vectora.help@gmail.com" class="ft-social" title="Email">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    </a>
+    <button class="ft-admin-btn" onclick="showAdminLogin()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+      Admin
+    </button>
+  </div>
+</footer>
+
+<!--═══════════════════════════════════════════
+  ADMIN LOGIN
+═══════════════════════════════════════════-->
+<div id="admin-login">
+  <div class="al-box">
+    <div class="al-logo">Vectira<span>.</span></div>
+    <div class="al-sub">Admin Panel · Secure Access</div>
+    <div class="al-fields">
+      <div class="cf-field">
+        <label class="cf-lbl">Username</label>
+        <input class="cf-input" type="text" id="al-user" placeholder="admin" autocomplete="off"/>
+      </div>
+      <div class="cf-field">
+        <label class="cf-lbl">Password</label>
+        <input class="cf-input" type="password" id="al-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/>
+      </div>
+    </div>
+    <div class="al-err" id="al-err"></div>
+    <button class="al-btn" onclick="doLogin()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+      Sign In
+    </button>
+    <span class="al-back" onclick="hideAdminLogin()">← Back to website</span>
+  </div>
+</div>
+
+<!--═══════════════════════════════════════════
+  ADMIN PANEL
+═══════════════════════════════════════════-->
+<div id="admin-panel">
+  <div class="ap-sidebar">
+    <div class="ap-logo">Vectira<span>.</span><small>Admin Panel</small></div>
+    <nav class="ap-nav">
+      <div class="ap-item active" onclick="apTab('dashboard',this)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </div>
+      <div class="ap-item" onclick="apTab('clients',this)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        Clients
+      </div>
+      <div class="ap-item" onclick="apTab('works',this)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
+        Portfolio
+      </div>
+      <div class="ap-item" onclick="apTab('settings',this)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M5.34 18.66l-1.41 1.41M20.48 12h2M1.52 12h2M19.07 19.07l-1.41-1.41M5.34 5.34L3.93 3.93M12 20.48v2M12 1.52v2"/></svg>
+        Settings
+      </div>
+    </nav>
+    <div class="ap-logout" onclick="doLogout()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Sign Out
+    </div>
+  </div>
+  <div class="ap-main" id="ap-main">
+    <!-- Rendered by JS -->
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-bg" id="modal">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-h" id="modal-title">Add <em>Client</em></div>
+    <div class="modal-fields" id="modal-fields"></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-xs" id="modal-confirm" onclick="">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!--═══════════════════════════════════════════
+  JAVASCRIPT
+═══════════════════════════════════════════-->
+<script>
+/*─── DATA STORE ───────────────────────────────*/
+const STORE_KEY = 'vds_data_v2';
+const DEFAULT = {
+  clients:[
+    {id:1,name:'Apex Brands',category:'Brand Identity',featured:true},
+    {id:2,name:'Nova Tech Solutions',category:'Website Design',featured:true},
+    {id:3,name:'Bloom Studios',category:'Social Media',featured:false},
+    {id:4,name:'Sunrise Realty',category:'Print Design',featured:false},
+    {id:5,name:'Kiran Fashion',category:'Brand Identity',featured:true},
+  ],
+  works:[
+    {id:1,clientId:1,title:'Full Brand Identity',category:'Brand Identity',
+     image:'https://images.unsplash.com/photo-1634942537034-2531766767d1?w=700&q=80',desc:'Logo, palette, brand guidelines'},
+    {id:2,clientId:1,title:'Business Card Design',category:'Print',
+     image:'https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=700&q=80',desc:'Premium embossed cards'},
+    {id:3,clientId:2,title:'Corporate Website',category:'Website Design',
+     image:'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=700&q=80',desc:'Full website redesign + SEO'},
+    {id:4,clientId:3,title:'Instagram Campaign',category:'Social Media',
+     image:'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=700&q=80',desc:'Monthly content creation'},
+    {id:5,clientId:5,title:'Fashion Brand Kit',category:'Brand Identity',
+     image:'https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=700&q=80',desc:'Complete brand identity'},
+    {id:6,clientId:4,title:'Property Brochure',category:'Print',
+     image:'https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?w=700&q=80',desc:'Luxury property prospectus'},
+  ],
+  settings:{
+    heroSub:'We craft bold brands, stunning websites, and scroll-stopping content for businesses that mean business.',
+    phone:'+91 8638373298',
+    email:'vectora.help@gmail.com',
+  }
+};
+
+function loadStore(){
+  try{const r=localStorage.getItem(STORE_KEY);return r?JSON.parse(r):JSON.parse(JSON.stringify(DEFAULT))}
+  catch{return JSON.parse(JSON.stringify(DEFAULT))}
+}
+function saveStore(d){try{localStorage.setItem(STORE_KEY,JSON.stringify(d))}catch{}}
+let DB=loadStore();
+
+/*─── NAV ──────────────────────────────────────*/
+function openDrawer(){document.getElementById('nav-drawer').classList.add('open')}
+function closeDrawer(){document.getElementById('nav-drawer').classList.remove('open')}
+function scrollTo(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});closeDrawer()}
+
+/*─── SCROLL REVEAL ────────────────────────────*/
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+/*─── PORTFOLIO ────────────────────────────────*/
+let activeFilter='All';
+function renderPortfolio(){
+  const grid=document.getElementById('pf-grid');
+  const cats=['All',...new Set(DB.works.map(w=>w.category))];
+  // filters
+  const fc=document.getElementById('pf-filters');
+  fc.innerHTML='';
+  cats.forEach(c=>{
+    const b=document.createElement('button');
+    b.className='pf-btn'+(c===activeFilter?' active':'');
+    b.textContent=c;
+    b.onclick=()=>{activeFilter=c;document.querySelectorAll('.pf-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderCards()};
+    fc.appendChild(b);
+  });
+  renderCards();
+}
+function renderCards(){
+  const grid=document.getElementById('pf-grid');
+  const filtered=activeFilter==='All'?DB.works:DB.works.filter(w=>w.category===activeFilter);
+  if(!filtered.length){grid.innerHTML='<div class="pf-empty">No works in this category yet.</div>';return}
+  grid.innerHTML=filtered.map(w=>{
+    const c=DB.clients.find(x=>x.id===w.clientId);
+    return`<div class="pf-card" onclick="openLightbox('${w.image}','${w.title}','${w.category}')">
+      <img src="${w.image}" alt="${w.title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=700'"/>
+      <div class="pf-overlay">
+        <div class="pf-cat">${w.category}</div>
+        <div class="pf-name">${w.title}</div>
+        <div class="pf-client">${c?c.name:'Vectora Client'}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/*─── LIGHTBOX ─────────────────────────────────*/
+function openLightbox(img,title,cat){
+  document.getElementById('lightbox-img').src=img;
+  document.getElementById('lb-title').textContent=title;
+  document.getElementById('lb-cat').textContent=cat;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('open')}
+
+/*─── MARQUEE ──────────────────────────────────*/
+function renderMarquee(){
+  const t=document.getElementById('marquee-track');
+  const chips=[...DB.clients,...DB.clients].map(c=>`<div class="m-chip">${c.name}</div>`).join('');
+  t.innerHTML=chips;
+}
+
+/*─── CONTACT ──────────────────────────────────*/
+function submitContact(e){
+  e.preventDefault();
+  document.getElementById('cf-form').style.display='none';
+  document.getElementById('cf-success').style.display='block';
+  setTimeout(()=>{
+    document.getElementById('cf-success').style.display='none';
+    document.getElementById('cf-form').style.display='flex';
+    e.target.reset();
+  },5000);
+}
+// Try contacting local backend
+async function pingServer(){
+  try{const r=await fetch('/api/ping');return r.ok}catch{return false}
+}
+async function uploadFileToServer(file){
+  try{
+    const fd=new FormData();fd.append('file',file);
+    const r=await fetch('/api/upload',{method:'POST',body:fd});
+    if(!r.ok)throw new Error('upload failed');
+    const j=await r.json();return j.url||null;
+  }catch(e){return null}
+}
+function fileToDataUrl(file){
+  return new Promise((res,rej)=>{
+    const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file);
+  })
+}
+
+async function applySettings(){
+  const s=DB.settings;
+  document.getElementById('hero-sub').textContent=s.heroSub||'';
+  document.getElementById('contact-phone').textContent=s.phone||'';
+  document.getElementById('contact-phone').href='tel:'+ (s.phone? s.phone.replace(/\s/g,'') : '');
+  document.getElementById('contact-email').textContent=s.email||'';
+  document.getElementById('contact-email').href='mailto:'+ (s.email||'');
+
+  // WhatsApp links
+  const phoneDigits=(s.phone||'').replace(/[^0-9]/g,'');
+  const waText=encodeURIComponent('Hi, I would like to discuss a project with Vectira Design Studio');
+  const waHref = phoneDigits? ('https://wa.me/'+phoneDigits+'?text='+waText) : '#';
+  const heroWa=document.getElementById('hero-whatsapp');
+  const contactWa=document.getElementById('contact-whatsapp');
+  if(heroWa) heroWa.href = waHref;
+  if(contactWa) contactWa.href = waHref;
+
+  // Logo handling: show text or image if provided
+  if(s.logoUrl){
+    const navLogo=document.querySelector('.nav-logo');
+    const ftLogo=document.querySelector('.ft-logo');
+    if(navLogo) navLogo.innerHTML = `<img src="${s.logoUrl}" alt="logo" style="height:34px;object-fit:contain">`;
+    if(ftLogo) ftLogo.innerHTML = `<img src="${s.logoUrl}" alt="logo" style="height:28px;object-fit:contain">`;
+  }
+}
+
+/*─── ADMIN LOGIN ──────────────────────────────*/
+function showAdminLogin(){document.getElementById('admin-login').classList.add('open')}
+function hideAdminLogin(){
+  document.getElementById('admin-login').classList.remove('open');
+  document.getElementById('al-user').value='';
+  document.getElementById('al-pass').value='';
+  document.getElementById('al-err').textContent='';
+}
+function doLogin(){
+  const u=document.getElementById('al-user').value.trim();
+  const p=document.getElementById('al-pass').value;
+  if(u==='admin'&&p==='vectora2024'){
+    hideAdminLogin();
+    document.getElementById('admin-panel').classList.add('open');
+    renderAdmin('dashboard');
+  }else{
+    document.getElementById('al-err').textContent='Invalid credentials';
+    document.getElementById('al-pass').value='';
+  }
+}
+function doLogout(){
+  document.getElementById('admin-panel').classList.remove('open');
+}
+
+/*─── ADMIN TABS ───────────────────────────────*/
+function apTab(tab,el){
+  document.querySelectorAll('.ap-item').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  renderAdmin(tab);
+}
+function renderAdmin(tab){
+  const main=document.getElementById('ap-main');
+  if(tab==='dashboard') main.innerHTML=renderDash();
+  if(tab==='clients')   main.innerHTML=renderClients();
+  if(tab==='works')     main.innerHTML=renderWorks();
+  if(tab==='settings')  main.innerHTML=renderSettings();
+}
+
+/*─── ADMIN: DASHBOARD ─────────────────────────*/
+function renderDash(){
+  const cats=new Set(DB.works.map(w=>w.category)).size;
+  const recent=DB.works.slice(-5).reverse().map(w=>{
+    const c=DB.clients.find(x=>x.id===w.clientId);
+    return`<tr><td><b>${w.title}</b></td><td>${c?c.name:'—'}</td><td><span class="badge bg">${w.category}</span></td></tr>`;
+  }).join('');
+  return`
+  <div class="ap-head"><h1 class="ap-h1">Welcome, <em>Vectora</em> ✦</h1><p class="ap-sub">Your agency at a glance</p></div>
+  <div class="ap-stats">
+    <div class="ap-stat"><div class="ap-stat-n">${DB.clients.length}</div><div class="ap-stat-l">Clients</div></div>
+    <div class="ap-stat"><div class="ap-stat-n">${DB.works.length}</div><div class="ap-stat-l">Works</div></div>
+    <div class="ap-stat"><div class="ap-stat-n">${cats}</div><div class="ap-stat-l">Categories</div></div>
+    <div class="ap-stat"><div class="ap-stat-n">100%</div><div class="ap-stat-l">Satisfaction</div></div>
+  </div>
+  <div class="ap-card">
+    <div class="ap-card-head"><span class="ap-card-title">Recent Works</span></div>
+    <table><thead><tr><th>Title</th><th>Client</th><th>Category</th></tr></thead><tbody>${recent}</tbody></table>
+  </div>`;
+}
+
+/*─── ADMIN: CLIENTS ───────────────────────────*/
+function renderClients(){
+  const rows=DB.clients.map(c=>`
+    <tr>
+      <td><b>${c.name}</b></td>
+      <td>${c.category||'—'}</td>
+      <td><span class="badge ${c.featured?'bg':'bm'}">${c.featured?'Featured':'Regular'}</span></td>
+      <td><button class="btn-del" onclick="deleteClient(${c.id})">✕ Remove</button></td>
+    </tr>`).join('');
+  return`
+  <div class="ap-head"><h1 class="ap-h1"><em>Clients</em></h1><p class="ap-sub">Manage current and future clients</p></div>
+  <div class="ap-card">
+    <div class="ap-card-head">
+      <span class="ap-card-title">All Clients (${DB.clients.length})</span>
+      <button class="btn-xs" onclick="openAddClient()">+ Add Client</button>
+    </div>
+    <table><thead><tr><th>Name</th><th>Category</th><th>Status</th><th>Action</th></tr></thead><tbody>${rows}</tbody></table>
+  </div>`;
+}
+function deleteClient(id){
+  if(!confirm('Remove this client?'))return;
+  DB.clients=DB.clients.filter(c=>c.id!==id);
+  saveStore(DB);renderMarquee();renderAdmin('clients');
+}
+function openAddClient(){
+  document.getElementById('modal-title').innerHTML='Add <em>Client</em>';
+  document.getElementById('modal-fields').innerHTML=`
+    <div class="cf-field"><label class="cf-lbl">Client Name *</label><input class="cf-input" id="m-name" placeholder="Company or person name"/></div>
+    <div class="cf-field"><label class="cf-lbl">Category</label><input class="cf-input" id="m-cat" placeholder="e.g. Brand Identity, Social Media"/></div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <input type="checkbox" id="m-feat" style="accent-color:var(--gold);width:16px;height:16px"/>
+      <label for="m-feat" class="cf-lbl" style="cursor:pointer;margin:0">Mark as Featured Client</label>
+    </div>`;
+  document.getElementById('modal-confirm').onclick=confirmAddClient;
+  document.getElementById('modal-confirm').textContent='Add Client';
+  openModal();
+}
+function confirmAddClient(){
+  const name=document.getElementById('m-name').value.trim();
+  if(!name)return alert('Please enter a name.');
+  DB.clients.push({id:Date.now(),name,category:document.getElementById('m-cat').value.trim(),featured:document.getElementById('m-feat').checked});
+  saveStore(DB);closeModal();renderMarquee();renderAdmin('clients');
+}
+
+/*─── ADMIN: WORKS ─────────────────────────────*/
+function renderWorks(){
+  const grouped=DB.clients.map(c=>({
+    client:c,works:DB.works.filter(w=>w.clientId===c.id)
+  })).filter(g=>g.works.length>0);
+
+  const sections=grouped.map(g=>{
+    const thumbs=g.works.map(w=>`
+      <div class="ag-thumb">
+        <img src="${w.image}" alt="${w.title}" onerror="this.src='https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=300'"/>
+        <div class="ag-ov">
+          <span>${w.title}</span>
+          <button class="btn-del" onclick="deleteWork(${w.id})">✕</button>
+        </div>
+      </div>`).join('');
+    return`
+    <div class="ap-card">
+      <div class="ap-card-head">
+        <span class="ap-card-title">${g.client.name} <span class="badge bm" style="margin-left:6px">${g.works.length} works</span></span>
+      </div>
+      <div class="ag-grid">${thumbs}</div>
+    </div>`;
+  }).join('');
+
+  return`
+  <div class="ap-head"><h1 class="ap-h1"><em>Portfolio</em> Gallery</h1><p class="ap-sub">Works grouped by client</p></div>
+  ${sections||'<p style="color:var(--dim)">No works yet.</p>'}
+  <button class="btn-xs" onclick="openAddWork()" style="margin-top:8px">+ Add New Work</button>`;
+}
+function deleteWork(id){
+  if(!confirm('Remove this work?'))return;
+  DB.works=DB.works.filter(w=>w.id!==id);
+  saveStore(DB);renderPortfolio();renderAdmin('works');
+}
+function openAddWork(){
+  const opts=DB.clients.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+  document.getElementById('modal-title').innerHTML='Add <em>Work</em>';
+  document.getElementById('modal-fields').innerHTML=`
+    <div class="cf-field"><label class="cf-lbl">Client *</label>
+      <select class="cf-input" id="m-cid"><option value="">Select client...</option>${opts}</select></div>
+    <div class="cf-field"><label class="cf-lbl">Title *</label><input class="cf-input" id="m-wtitle" placeholder="e.g. Brand Logo Design"/></div>
+    <div class="cf-field"><label class="cf-lbl">Category</label><input class="cf-input" id="m-wcat" placeholder="e.g. Brand Identity"/></div>
+    <div class="cf-field"><label class="cf-lbl">Image URL</label><input class="cf-input" id="m-wimg" placeholder="https://..."/></div>
+    <div class="cf-field"><label class="cf-lbl">Or upload image</label><input class="cf-input" type="file" id="m-wimg-file" accept="image/*"/></div>
+    <div class="cf-field"><label class="cf-lbl">Description</label><input class="cf-input" id="m-wdesc" placeholder="Short description"/></div>`;
+  document.getElementById('modal-confirm').onclick=confirmAddWork;
+  document.getElementById('modal-confirm').textContent='Add Work';
+  openModal();
+}
+function confirmAddWork(){
+  (async()=>{
+    const clientId=parseInt(document.getElementById('m-cid').value);
+    const title=document.getElementById('m-wtitle').value.trim();
+    if(!clientId||!title)return alert('Please select a client and enter a title.');
+    let image=document.getElementById('m-wimg').value.trim();
+    const fileInput=document.getElementById('m-wimg-file');
+    if((!image) && fileInput && fileInput.files && fileInput.files[0]){
+      const f=fileInput.files[0];
+      if(await pingServer()){
+        const up=await uploadFileToServer(f);
+        if(up) image = up;
+      }
+      if(!image){
+        image = await fileToDataUrl(f);
+      }
+    }
+    if(!image) image='https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=700';
+    DB.works.push({
+      id:Date.now(),clientId,title,
+      category:document.getElementById('m-wcat').value.trim()||'Design',
+      image,
+      desc:document.getElementById('m-wdesc').value.trim()
+    });
+    saveStore(DB);closeModal();renderPortfolio();renderAdmin('works');
+    if(await pingServer()){
+      try{await fetch('/api/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(DB)});}catch(e){}
+    }
+  })();
+}
+
+/*─── ADMIN: SETTINGS ──────────────────────────*/
+function renderSettings(){
+  const s=DB.settings;
+  return`
+  <div class="ap-head"><h1 class="ap-h1"><em>Settings</em></h1><p class="ap-sub">Update contact details shown on the website</p></div>
+  <div class="ap-card">
+    <div class="ap-card-head"><span class="ap-card-title">Website Content</span></div>
+    <div class="ap-form">
+      <div class="cf-field"><label class="cf-lbl">Hero Subtitle</label>
+        <textarea class="cf-input" id="s-sub" rows="3">${s.heroSub||''}</textarea></div>
+      <div class="cf-field"><label class="cf-lbl">Phone Number</label>
+        <input class="cf-input" id="s-phone" value="${s.phone||''}"/></div>
+      <div class="cf-field"><label class="cf-lbl">Email Address</label>
+        <input class="cf-input" id="s-email" value="${s.email||''}"/></div>
+      <div class="cf-field"><label class="cf-lbl">Site Logo (URL)</label>
+        <input class="cf-input" id="s-logo" value="${s.logoUrl||''}" placeholder="https://... or leave blank"/></div>
+      <div class="cf-field"><label class="cf-lbl">Or upload Logo (PNG/JPG)</label>
+        <input class="cf-input" type="file" id="s-logo-file" accept="image/*"/></div>
+      <div class="cf-field"><label class="cf-lbl">Preview</label>
+        <div id="s-logo-preview" style="display:flex;align-items:center;gap:12px">${s.logoUrl?`<img src="${s.logoUrl}" style="height:40px;object-fit:contain">`:'<span style="color:var(--dim)">No logo set</span>'}</div></div>
+      <div class="save-row">
+        <button class="btn-xs" onclick="saveSettings()">Save Changes</button>
+        <span class="save-ok" id="save-ok">✓ Saved!</span>
+      </div>
+    </div>
+  </div>
+  <div class="ap-card">
+    <div class="ap-card-head"><span class="ap-card-title">Login Credentials</span></div>
+    <div class="ap-form">
+      <p style="font-size:.85rem;color:var(--muted)">Username: <b style="color:var(--gold)">admin</b></p>
+      <p style="font-size:.85rem;color:var(--muted)">Password: <b style="color:var(--gold)">vectora2024</b></p>
+      <p style="font-size:.76rem;color:var(--dim)">To change credentials, update the values in the source code (search "vectora2024").</p>
+    </div>
+  </div>`;
+}
+function saveSettings(){
+  (async()=>{
+    DB.settings.heroSub=document.getElementById('s-sub').value;
+    DB.settings.phone=document.getElementById('s-phone').value;
+    DB.settings.email=document.getElementById('s-email').value;
+    const logoUrlInput=document.getElementById('s-logo').value.trim();
+    if(logoUrlInput) DB.settings.logoUrl=logoUrlInput;
+    const fileInput=document.getElementById('s-logo-file');
+    if(fileInput && fileInput.files && fileInput.files[0]){
+      // try server upload first
+      const file=fileInput.files[0];
+      let uploaded=null;
+      if(await pingServer()) uploaded = await uploadFileToServer(file);
+      if(uploaded) DB.settings.logoUrl = uploaded;
+      else {
+        // fallback to data URL
+        DB.settings.logoUrl = await fileToDataUrl(file);
+      }
+    }
+    saveStore(DB);applySettings();
+    // if backend available, persist
+    if(await pingServer()){
+      try{await fetch('/api/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(DB)});}catch(e){}
+    }
+    const ok=document.getElementById('save-ok');
+    ok.classList.add('show');setTimeout(()=>ok.classList.remove('show'),2500);
+    // update preview
+    const prev=document.getElementById('s-logo-preview');
+    if(prev){prev.innerHTML = DB.settings.logoUrl? `<img src="${DB.settings.logoUrl}" style="height:40px;object-fit:contain">` : '<span style="color:var(--dim)">No logo set</span>'}
+  })();
+}
+
+/*─── MODAL ────────────────────────────────────*/
+function openModal(){document.getElementById('modal').classList.add('open')}
+function closeModal(){document.getElementById('modal').classList.remove('open')}
+document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal()});
+
+/*─── INIT ─────────────────────────────────────*/
+renderPortfolio();
+renderMarquee();
+applySettings();
+
+// Update stat counters
+document.getElementById('stat-projects').textContent=DB.works.length*3+'+';
+document.getElementById('stat-clients').textContent=DB.clients.length*3+'+';
+</script>
+</body>
+</html>

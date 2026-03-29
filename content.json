@@ -1,0 +1,24 @@
+{
+  "clients": [
+    { "id": 1, "name": "Apex Brands", "category": "Brand Identity", "featured": true },
+    { "id": 2, "name": "Nova Tech Solutions", "category": "Website Design", "featured": true },
+    { "id": 3, "name": "Bloom Studios", "category": "Social Media", "featured": false },
+    { "id": 4, "name": "Sunrise Realty", "category": "Print Design", "featured": false },
+    { "id": 5, "name": "Kiran Fashion", "category": "Brand Identity", "featured": true }
+  ],
+  "works": [
+    { "id": 1, "clientId": 1, "title": "Full Brand Identity", "category": "Brand Identity", "image": "https://images.unsplash.com/photo-1634942537034-2531766767d1?w=700&q=80", "desc": "Logo, palette, brand guidelines" },
+    { "id": 2, "clientId": 1, "title": "Business Card Design", "category": "Print", "image": "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=700&q=80", "desc": "Premium embossed cards" },
+    { "id": 3, "clientId": 2, "title": "Corporate Website", "category": "Website Design", "image": "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=700&q=80", "desc": "Full website redesign + SEO" },
+    { "id": 4, "clientId": 3, "title": "Instagram Campaign", "category": "Social Media", "image": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=700&q=80", "desc": "Monthly content creation" },
+    { "id": 5, "clientId": 5, "title": "Fashion Brand Kit", "category": "Brand Identity", "image": "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=700&q=80", "desc": "Complete brand identity" },
+    { "id": 6, "clientId": 4, "title": "Property Brochure", "category": "Print", "image": "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?w=700&q=80", "desc": "Luxury property prospectus" }
+  ],
+  "settings": {
+    "heroSub": "We craft bold brands, stunning websites, and scroll-stopping content for businesses that mean business.",
+    "phone": "+91 8638373298",
+    "email": "vectora.help@gmail.com",
+    "logoText": "Vectira Design Studio",
+    "logoUrl": ""
+  }
+}
