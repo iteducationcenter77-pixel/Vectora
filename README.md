@@ -8,6 +8,32 @@ What I changed
 - Admin panel now supports uploading a logo and uploading portfolio images. Uploads try the local server first and fallback to storing images as data URLs in localStorage.
 - Added `content.json` for server-backed content and `server.js` to accept uploads and save content.
 
+Supabase integration for Vercel deployment
+- This repo now contains serverless API routes under `/api/` that can be deployed on Vercel. They expect Supabase environment variables to be set in your Vercel project:
+	- `SUPABASE_URL` — your Supabase project URL
+	- `SUPABASE_ANON_KEY` — Supabase anon key (used for reading content)
+	- `SUPABASE_SERVICE_ROLE_KEY` — Supabase service role key (used by serverless functions to upload files and save content). Keep this secret.
+
+API endpoints (serverless)
+- `GET /api/content` — reads `content.json` from the Supabase Storage bucket `content` (public read). Falls back to local `content.json` only when running locally with the Express server.
+- `POST /api/save` — accepts site JSON and writes `content.json` into the `content` bucket (requires `SUPABASE_SERVICE_ROLE_KEY`).
+- `POST /api/upload` — accepts JSON { filename, data } where `data` is a data-URL (base64). Stores the image in the `uploads` bucket and returns a public URL.
+- `GET /api/ping` — simple health check.
+
+Required Supabase setup
+1. Create a Supabase project.
+2. In the Supabase Dashboard → Storage, create two buckets: `uploads` and `content`. Set them to public (or configure policies accordingly).
+3. Add the project keys to your Vercel project environment variables as above. `SUPABASE_SERVICE_ROLE_KEY` must be kept secret.
+
+Deploying to Vercel
+1. Push this repository to GitHub (already done).
+2. In Vercel, import the repository and set the environment variables.
+3. Deploy — the serverless APIs will use Supabase for persistence.
+
+Local development
+- If you prefer to run a local server with filesystem persistence, you can still run `server.js` locally. That server persists files to `assets/uploads` and `content.json` in the repo. When deploying to Vercel, the serverless APIs and Supabase should be used instead.
+
+
 Run locally
 1. Install dependencies:
 
