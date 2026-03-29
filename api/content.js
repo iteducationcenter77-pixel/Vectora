@@ -9,11 +9,15 @@ module.exports = async (req, res) => {
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { persistSession: false } });
     // try to download content.json from 'content' bucket
     const { data, error } = await supabase.storage.from('content').download('content.json');
-    if(error) return res.status(404).json({ error: 'content not found' });
+    if(error) {
+      console.error('Error downloading content.json from storage:', error);
+      return res.status(404).json({ error: 'content not found', detail: error.message || error });
+    }
     const text = await data.text();
     res.setHeader('Content-Type','application/json');
     res.send(text);
   }catch(e){
-    return res.status(500).json({ error: String(e) });
+    console.error('Unhandled content error:', e);
+    return res.status(500).json({ error: e.message || String(e), stack: e.stack });
   }
 };

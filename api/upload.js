@@ -16,15 +16,27 @@ module.exports = async (req, res) => {
     if(!m) return res.status(400).json({ error: 'invalid data URL' });
     const contentType = m[1];
     const b64 = m[2];
-    const buffer = Buffer.from(b64, 'base64');
 
+    // Protect serverless functions from very large uploads (Vercel/Serverless has size limits)
+    const decodedSize = Math.floor(b64.length * 3 / 4);
+    const MAX_BYTES = 4 * 1024 * 1024; // 4 MB
+    if (decodedSize > MAX_BYTES) {
+      console.error('Upload payload too large:', decodedSize);
+      return res.status(413).json({ error: 'Payload too large for serverless function. Upload directly from the client to Supabase Storage.' });
+    }
+
+    const buffer = Buffer.from(b64, 'base64');
     const key = `uploads/${Date.now()}-${filename.replace(/[^a-zA-Z0-9.\-_]/g,'_')}`;
     const { error: upErr } = await supabase.storage.from('uploads').upload(key, buffer, { contentType, upsert: false });
-    if(upErr) return res.status(500).json({ error: upErr.message });
+    if(upErr) {
+      console.error('Supabase upload error:', upErr);
+      return res.status(500).json({ error: upErr.message || upErr });
+    }
 
     const { data: publicData } = supabase.storage.from('uploads').getPublicUrl(key);
     return res.json({ url: publicData.publicUrl });
   }catch(e){
-    return res.status(500).json({ error: String(e) });
+    console.error('Unhandled upload error:', e);
+    return res.status(500).json({ error: e.message || String(e), stack: e.stack });
   }
 };

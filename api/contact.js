@@ -14,9 +14,13 @@ module.exports = async (req, res) => {
 
     const record = { name, email, phone: phone||'', service: service||'', message, created_at: new Date().toISOString() };
     const { error } = await supabase.from('contacts').insert([record]);
-    if(error) return res.status(500).json({ error: error.message || error });
+    if(error) {
+      console.error('Supabase insert error (contacts):', error);
+      return res.status(500).json({ error: error.message || error });
+    }
     return res.json({ ok: true });
   }catch(e){
-    return res.status(500).json({ error: String(e) });
+    console.error('Unhandled contact error:', e);
+    return res.status(500).json({ error: e.message || String(e), stack: e.stack });
   }
 };

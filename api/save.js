@@ -15,10 +15,14 @@ module.exports = async (req, res) => {
     const key = 'content/content.json';
     // upload (upsert)
     const { error: upErr } = await supabase.storage.from('content').upload(key, Buffer.from(content), { contentType: 'application/json', upsert: true });
-    if(upErr) return res.status(500).json({ error: upErr.message });
+    if(upErr) {
+      console.error('Save content upload error:', upErr);
+      return res.status(500).json({ error: upErr.message || upErr });
+    }
 
     return res.json({ ok:true });
   }catch(e){
-    return res.status(500).json({ error: String(e) });
+    console.error('Unhandled save error:', e);
+    return res.status(500).json({ error: e.message || String(e), stack: e.stack });
   }
 };
