@@ -1,9 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/", "destination": "/index.html" },
-    { "source": "/vectora", "destination": "/index.html" }
-  ],
-  "cleanUrls": true,
-  "trailingSlash": false,
-  "buildCommand": ""
-}
