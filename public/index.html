@@ -186,6 +186,9 @@ input,textarea,select{font-family:var(--ff-b);outline:none}
 </style>
 </head>
 <body>
+<noscript><div style="background:#ff6868;color:#fff;padding:18px;text-align:center;font-size:1.2rem;z-index:9999;position:fixed;top:0;left:0;right:0;">JavaScript is required for this site to work. Please enable JavaScript.</div></noscript>
+<div id="js-error" style="background:#ff6868;color:#fff;padding:18px;text-align:center;font-size:1.2rem;z-index:9999;position:fixed;top:0;left:0;right:0;">If you see this message, JavaScript is NOT running. There is a critical error or misconfiguration.</div>
+<script>console.log('JS loaded: Vectora index.html');try{document.getElementById('js-error').style.display = 'none';}catch(e){}</script>
 <div id="js-test" style="color:#fff;background:#25D366;padding:18px;text-align:center;font-size:1.1em;z-index:9999;position:fixed;top:0;left:0;right:0;">JavaScript loaded: If you see this, scripts are running.</div>
     <script>
       // Remove the test message if JS runs
