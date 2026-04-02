@@ -194,6 +194,55 @@ input,textarea,select{font-family:var(--ff-b);outline:none}
         if (el) el.remove();
       });
     </script>
-<!-- ...full HTML content from vectora.html... -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Vectora Design Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/*─────────────────────────────────────────────
+  RESET & BASE
+─────────────────────────────────────────────*/
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07070c;
+  --surface:#0f0f18;
+  --card:#13131e;
+  --border:rgba(255,210,100,0.12);
+  --gold:#f0c040;
+  --gold2:#ffdc70;
+  --white:#f8f4ee;
+  --muted:rgba(248,244,238,0.45);
+  --dim:rgba(248,244,238,0.18);
+  --ff-h:'Playfair Display',Georgia,serif;
+  --ff-b:'Outfit',sans-serif;
+  --r:6px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--ff-b);background:var(--bg);color:var(--white);overflow-x:hidden;line-height:1.6}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--ff-b);cursor:pointer;border:none;outline:none}
+input,textarea,select{font-family:var(--ff-b);outline:none}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+
+/*─────────────────────────────────────────────
+  GRAIN OVERLAY
+─────────────────────────────────────────────*/
+body::after{
+  content:'';pointer-events:none;position:fixed;inset:0;z-index:9999;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity:0.025;
+}
+
+/*─────────────────────────────────────────────
+  NAV
+─────────────────────────────────────────────*/
+...existing code...
 </body>
 </html>
