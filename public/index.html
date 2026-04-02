@@ -7,10 +7,185 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
-/* ...existing code... */
+/*─────────────────────────────────────────────
+  RESET & BASE
+─────────────────────────────────────────────*/
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07070c;
+  --surface:#0f0f18;
+  --card:#13131e;
+  --border:rgba(255,210,100,0.12);
+  --gold:#f0c040;
+  --gold2:#ffdc70;
+  --white:#f8f4ee;
+  --muted:rgba(248,244,238,0.45);
+  --dim:rgba(248,244,238,0.18);
+  --ff-h:'Playfair Display',Georgia,serif;
+  --ff-b:'Outfit',sans-serif;
+  --r:6px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--ff-b);background:var(--bg);color:var(--white);overflow-x:hidden;line-height:1.6}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--ff-b);cursor:pointer;border:none;outline:none}
+input,textarea,select{font-family:var(--ff-b);outline:none}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+
+/*─────────────────────────────────────────────
+  COMPONENTS
+─────────────────────────────────────────────*/
+.button{
+  padding:0.5em 1em;
+  border-radius:0.5em;
+  border:var(--border);
+  color:var(--white);
+  background:var(--gold);
+  cursor:pointer;
+  transition:all 0.3s;
+}
+.button:hover{
+  background:var(--gold2);
+  color:var(--white);
+}
+.button:active{
+  background:var(--gold);
+  color:var(--white);
+}
+.button:disabled{
+  background:var(--surface);
+  color:var(--muted);
+}
+
+/*─────────────────────────────────────────────
+  LAYOUT
+─────────────────────────────────────────────*/
+.container{
+  max-width:1200px;
+  margin:0 auto;
+  padding:2em 1em;
+}
+.row{
+  display:flex;
+  flex-wrap:wrap;
+  margin:0.5em 0;
+}
+.col{
+  flex:0 0 100%;
+  max-width:100%;
+  padding:0.5em 0;
+}
+.col-12{
+  flex:0 0 100%;
+  max-width:100%;
+}
+.col-6{
+  flex:0 0 50%;
+  max-width:50%;
+}
+.col-4{
+  flex:0 0 33.33%;
+  max-width:33.33%;
+}
+.col-3{
+  flex:0 0 25%;
+  max-width:25%;
+}
+.col-2{
+  flex:0 0 16.66%;
+  max-width:16.66%;
+}
+.col-1{
+  flex:0 0 8.33%;
+  max-width:8.33%;
+}
+
+/*─────────────────────────────────────────────
+  TYPOGRAPHY
+─────────────────────────────────────────────*/
+.h1,h2,h3,h4,h5,h6{
+  font-family:var(--ff-h);
+  color:var(--white);
+}
+.h1{font-size:3em}
+.h2{font-size:2.5em}
+.h3{font-size:2em}
+.h4{font-size:1.5em}
+.h5{font-size:1.2em}
+.h6{font-size:1em}
+.p{
+  font-family:var(--ff-b);
+  color:var(--muted);
+}
+.text-center{
+  text-align:center;
+}
+.text-right{
+  text-align:right;
+}
+.text-left{
+  text-align:left;
+}
+
+/*─────────────────────────────────────────────
+  ANIMATIONS
+─────────────────────────────────────────────*/
+@keyframes fadeIn{
+  0%{opacity:0}
+  100%{opacity:1}
+}
+@keyframes fadeOut{
+  0%{opacity:1}
+  100%{opacity:0}
+}
+@keyframes slideInFromLeft{
+  0%{transform:translateX(-100%);opacity:0}
+  100%{transform:translateX(0);opacity:1}
+}
+@keyframes slideInFromRight{
+  0%{transform:translateX(100%);opacity:0}
+  100%{transform:translateX(0);opacity:1}
+}
+
+/*─────────────────────────────────────────────
+  MEDIA QUERIES
+─────────────────────────────────────────────*/
+@media (max-width:768px){
+  .container{
+    max-width:100%;
+    padding:1em 0.5em;
+  }
+  .col-12{
+    flex:0 0 100%;
+    max-width:100%;
+  }
+  .col-6{
+    flex:0 0 50%;
+    max-width:50%;
+  }
+  .col-4{
+    flex:0 0 33.33%;
+    max-width:33.33%;
+  }
+  .col-3{
+    flex:0 0 25%;
+    max-width:25%;
+  }
+  .col-2{
+    flex:0 0 16.66%;
+    max-width:16.66%;
+  }
+  .col-1{
+    flex:0 0 8.33%;
+    max-width:8.33%;
+  }
+</media>
 </style>
 </head>
 <body>
-<!-- ...existing code... -->
+<!-- ...full HTML content from vectora.html... -->
 </body>
 </html>
