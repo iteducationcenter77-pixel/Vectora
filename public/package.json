@@ -1,0 +1,6 @@
+{
+  "name": "vectora-static",
+  "version": "1.0.0",
+  "description": "Static site placeholder for Vercel.",
+  "private": true
+}
