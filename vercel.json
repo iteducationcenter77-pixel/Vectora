@@ -4,5 +4,7 @@
     { "source": "/vectora", "destination": "/vectora.html" }
   ],
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "outputDirectory": "public",
+  "buildCommand": ""
 }
