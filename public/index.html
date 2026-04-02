@@ -186,6 +186,14 @@ input,textarea,select{font-family:var(--ff-b);outline:none}
 </style>
 </head>
 <body>
+<div id="js-test" style="color:#fff;background:#25D366;padding:18px;text-align:center;font-size:1.1em;z-index:9999;position:fixed;top:0;left:0;right:0;">JavaScript loaded: If you see this, scripts are running.</div>
+    <script>
+      // Remove the test message if JS runs
+      window.addEventListener('DOMContentLoaded', function() {
+        var el = document.getElementById('js-test');
+        if (el) el.remove();
+      });
+    </script>
 <!-- ...full HTML content from vectora.html... -->
 </body>
 </html>
