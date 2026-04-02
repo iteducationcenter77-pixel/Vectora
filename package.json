@@ -2,9 +2,8 @@
   "name": "vectora-site",
   "version": "1.0.0",
   "description": "Vectira Design Studio - local dev server for uploads and content API",
-  // "main": "server.local.js",
   "scripts": {
-    // "start": "node server.local.js",
+  
     "dev": "node server.local.js",
     "migrate": "node scripts/migrate_db.js"
   },
