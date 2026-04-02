@@ -198,6 +198,7 @@ input,textarea,select{font-family:var(--ff-b);outline:none}
       });
     </script>
 <!-- Cleaned: Only one HTML document below. -->
+<!-- Overwrite with a single, valid HTML document from vectora.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -234,7 +235,15 @@ input,textarea,select{font-family:var(--ff-b);outline:none}
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
-/* ...rest of your CSS and HTML content, only once... */
+/*─────────────────────────────────────────────
+  GRAIN OVERLAY
+─────────────────────────────────────────────*/
+body::after{
+  content:'';pointer-events:none;position:fixed;inset:0;z-index:9999;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity:0.025;
+}
+/* ...full vectora.html content continues here, only once, no debug overlays... */
 
 </body>
 </html>
