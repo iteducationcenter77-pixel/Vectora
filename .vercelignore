@@ -1,0 +1,6 @@
+server.local.js
+assets/uploads/
+.env
+*.log
+node_modules/
+README.md
